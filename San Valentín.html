@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Quieres ser mi San Valentín?</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #ffe6f2;
+            background-image: radial-gradient(circle, #ff99cc, #ff66b2, #ff3385, #ff0066);
+            overflow: hidden;
+            position: relative;
+        }
+        .container {
+            margin-top: 50px;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            display: inline-block;
+            box-shadow: 0 0 15px rgba(255, 0, 102, 0.3);
+            position: relative;
+        }
+        h1 {
+            color: #ff1a75;
+            font-size: 32px;
+            text-shadow: 2px 2px 5px rgba(255, 0, 102, 0.5);
+        }
+        .btn {
+            font-size: 18px;
+            padding: 12px 24px;
+            margin: 10px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            position: relative;
+        }
+        .yes-btn {
+            background-color: #ff1a75;
+            color: white;
+            font-size: 22px;
+        }
+        .no-btn {
+            background-color: #cccccc;
+            color: black;
+            position: absolute;
+        }
+        .heart {
+            position: absolute;
+            color: red;
+            font-size: 20px;
+            animation: floatUp 2s linear infinite;
+        }
+        .heart-burst {
+            position: absolute;
+            color: red;
+            font-size: 14px;
+            animation: burst 0.6s ease-out;
+        }
+        .mensaje-final {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 0, 102, 0.3);
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-150px); opacity: 0; }
+        }
+        @keyframes burst {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Oye Ale de mi vida, ¿Quisieras ser mi cita de San Valentín? 💖</h1>
+        <button class="btn yes-btn" id="yesButton" onclick="mostrarMensaje(event)">Sí 💕</button>
+        <button class="btn no-btn" id="noButton" onclick="moverBoton()">No 💔</button>
+        <p id="mensaje" class="hidden"></p>
+        <div id="mensajeFinal" class="mensaje-final">
+            <p>Gracias por aceptar, te amo demasiado y me llena de alegría que seas tú mi San Valentín. Espero que lleguemos a muchos días como este, mi amor. 💖</p>
+            <p>Te quiero y te aprecio, tú siempre serás mi San Valentín y espero que sea así muuchos muchos años, que seas siempre mi cita de San Valentín. 💞</p>
+        </div>
+    </div>
+
+    <script>
+        let frasesTristes = [
+            "💔 Me acabas de romper el corazón...",
+            "😢 ¿En serio me dirías que no?",
+            "😭 Mi corazón se está partiendo en dos...",
+            "🥀 Sin ti, San Valentín no tiene sentido...",
+            "💘 No hay nadie como tú, piénsalo bien..."
+        ];
+        let indexFrase = 0;
+        let yesButton = document.getElementById("yesButton");
+        let noButton = document.getElementById("noButton");
+
+        function mostrarMensaje(event) {
+            document.getElementById("mensaje").innerHTML = "Awwww, sabía que querías ser mi San Valentín! ❤️ Yo te amo demasiado! 😍";
+            document.getElementById("mensaje").classList.remove("hidden");
+            document.getElementById("mensajeFinal").style.display = "block";
+            noButton.style.display = "none";
+
+            for (let i = 0; i < 20; i++) {
+                crearCorazon();
+            }
+            for (let i = 0; i < 10; i++) {
+                corazonSalpicar(event);
+            }
+        }
+
+        function moverBoton() {
+            let maxX = window.innerWidth - 150;
+            let maxY = window.innerHeight - 150;
+            let randomX = Math.floor(Math.random() * maxX);
+            let randomY = Math.floor(Math.random() * maxY);
+            noButton.style.left = randomX + "px";
+            noButton.style.top = randomY + "px";
+
+            if (indexFrase < frasesTristes.length) {
+                noButton.innerHTML = frasesTristes[indexFrase];
+                indexFrase++;
+            } else {
+                noButton.innerHTML = "💔 No me hagas esto...";
+            }
+
+            aumentarBotonSi();
+        }
+
+        function aumentarBotonSi() {
+            let currentSize = parseInt(window.getComputedStyle(yesButton).fontSize);
+            yesButton.style.fontSize = (currentSize + 5) + "px";
+            yesButton.style.padding = (parseInt(yesButton.style.padding) + 5) + "px";
+        }
+
+        function crearCorazon() {
+            let heart = document.createElement("div");
+            heart.classList.add("heart");
+            heart.innerHTML = "❤️";
+            document.body.appendChild(heart);
+            heart.style.left = Math.random() * window.innerWidth + "px";
+            heart.style.bottom = "0px";
+            heart.style.fontSize = Math.random() * 20 + 20 + "px";
+
+            setTimeout(() => {
+                heart.remove();
+            }, 2000);
+        }
+
+        function corazonSalpicar(event) {
+            let heart = document.createElement("div");
+            heart.classList.add("heart-burst");
+            heart.innerHTML = "❤️";
+            document.body.appendChild(heart);
+            heart.style.left = event.clientX + Math.random() * 40 - 20 + "px";
+            heart.style.top = event.clientY + Math.random() * 40 - 20 + "px";
+
+            setTimeout(() => {
+                heart.remove();
+            }, 600);
+        }
+    </script>
+</body>
+</html>
